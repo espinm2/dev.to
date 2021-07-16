@@ -101,22 +101,40 @@ spec:
 
 
 ## Access Flow with Auth Policies
-There is some strightforward 
+There is some simple logic behind how authorization is determined given defined `AuthorizationPolicies`. Below is the flow as taken directly from the Istio documentation.
 
 >1 - If there are any CUSTOM policies that match the request, evaluate and deny the request if the evaluation result is deny.
 2 - If there are any DENY policies that match the request, deny the request.
 3 - If there are no ALLOW policies for the workload, allow the request.
 4 - If any of the ALLOW policies match the request, allow the request.
 5 - Deny the request.
-
 [source](https://istio.io/latest/docs/reference/config/security/authorization-policy/)
+
+That said, as a visual learner, I need something tangible to keep this model in my head. So I think of it as someone visiting a cooperate lobby trying to get access to a certain office. 
+
+In this analogy:
+- the custom auth policies can be thought of C-level execs
+	- They can decided many things, including if your allowed in or not!
+- the deny policies can be thought of a office security
+	- They are on the look out for features, if you catch their eye they will kick out
+- the auth policies can thought of as employees of the office your are visiting
+	- They can swipe you into the office if you have reason to be there
+
+Here, you move past first the custom policies, if they know you they will let you in. Or if they know you for bad reasons, they will kick you out.
 
 ![[Pasted image 20210716125812.png]]
 
+You've made it past the execs, nice! But here if you catch the eye (match) one of the deny policies, your out!
+
 ![[Pasted image 20210716125836.png]]
+
+In this case, on one wants you out. There are not Allow policies defined, so it's assumed you are allowed to enter the office.
 
 ![[Pasted image 20210716125851.png]]
 
+But, if any Allow policies are defined, you're going to need to have one of them expecting you (match) to allow you into the office.
+
 ![[Pasted image 20210716125918.png]]
 
+If no one is expecting you, but no one kicks you out explcitly. You are not allowed into the office still, 
 ![[Pasted image 20210716125930.png]]
