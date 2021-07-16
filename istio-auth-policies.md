@@ -41,12 +41,17 @@ The JWT is the standard token used in [OpenIDConnect](https://openid.net/connect
 
 Because, having a JWT can act as proof of who you are, and claims within the JWT capture what you are allowed to do. Clients usually obtain a JWT by requesting one from a JWT issuer along with some credentials to prove identity (user/pass/2FA). The JWT is then usually provided by the client to the app in the `Authorization: Bearer <token>` request header. There's a whole slew of tooling around doing this "handshake", from both client and server-side (Istio included). The neat thing about using a service mesh is that Istio can handle this interaction transparently to services. You only need configure the `RequestAuthenication` and `AuthorizationPolicy` objects.
 
-![image-20210711110154319](assets/image-20210711110154319.png)
+![](assets/image-20210711110154319.png)
 
 *Above: JWT 'handshake'*
 
+
 ## The RequestAuthentication Object
 
+In the `RequestAuthentication` object you can specify which workloads require a JWT from which trusted issuers. Note you need to provide `jwksUri` so that Istio knows where to grab the certs used in the validation of the tokens (aka the [JSON Web Key Set](https://auth0.com/docs/tokens/json-web-tokens/json-web-key-sets)). Your issuer will have an endpoint for this (sometimes linked from the `well-known` endpoint ).
+
+### Example Request Authentication
+In this example, we want our service `httpbin` in the foo `namespace` to require a valid JWT issues from google.
 ```yaml
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
@@ -62,7 +67,6 @@ spec:
     jwksUri: "https://www.googleapis.com/oauth2/v3/certs" # Certs to verify JWTs
 ```
 
-In the `RequestAuthentication` object you can specify which workloads require a JWT from which trusted issuers. Note you need to provide `jwksUri` so that Istio knows where to grab the certs used in the validation of the tokens (aka the [JSON Web Key Set](https://auth0.com/docs/tokens/json-web-tokens/json-web-key-sets)). Your issuer will have an endpoint for this (sometimes know as `well-known`). 
 
 ## The AuthorizationPolicy Object
 
