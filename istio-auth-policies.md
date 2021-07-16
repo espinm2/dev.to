@@ -12,23 +12,22 @@ With that said, checkout the [Istio official docs](https://istio.io/latest/docs/
 
 Istio is one of the leading service mesh implementations out there. It's used by a lot of companies to manage the growing overhead of having services running on Kubernetes. This is especially true when dealing with microservice architectures, which yield dozens (if not hundreds) services which need to talk to each other securely and reliably. 
 
-Using a service mesh, like Istio, handles a lot of this complexity for you:
-
+Using a service mesh, like Istio, handles a lot of this complexity for you. For example app developers do not need implement the following features and can instead use what's configurable in the mesh:
 - mTLS between services (encrypted both ways)
 - telemetry (common network metrics exposed for Prometheus)
 - rate limiting & fault tolerance
-- authentication (are you who you say you are?)
+- authentication (proving **who** you are)
 - authorization (can **you** do **that**?)
 
-We're going to focus on the last two in this post. 
 
+There is more the service mesh can do for your, but we're going to focus on the last two in this post. 
 
 
 ## The JWT
 
 (*pronounced 'jot'*)
 
-Authentication is proving who are you. Using Istio, you can request invokers of services on the mesh prove who they are using JWTs ([Javascript Web Token](https://jwt.io/introduction)). This functionality is configured with a [RequestAuthenication](https://istio.io/latest/docs/reference/config/security/request_authentication/) CRD (Custom Resource Definition). Once this functionality is configured you can use [AuthorizationPolicies](https://istio.io/latest/docs/reference/config/security/authorization-policy/) CRDs to enforce RBAC based on provided JWTs.
+Authentication is proving who are you. Using Istio, you can request clients calling services on the mesh prove who they are using JWTs ([Javascript Web Token](https://jwt.io/introduction)). This functionality is configured with a [RequestAuthenication](https://istio.io/latest/docs/reference/config/security/request_authentication/) CRD (Custom Resource Definition). Once this functionality is configured you can use [AuthorizationPolicies](https://istio.io/latest/docs/reference/config/security/authorization-policy/) CRDs to enforce RBAC based on provided JWTs.
 
 But to that, you need to understand what the JWT is, and how it's used in conjunction with Istio to enforce RBAC for services.
 
@@ -40,7 +39,7 @@ The JWT is the standard token used in [OpenIDConnect](https://openid.net/connect
 
 ### Now why does this matter?
 
-Because, the JWT can act as proof of who you are, and claims within the JWT capture what you are allowed to do. Clients usually obtain a JWT by requesting one from a JWT issuer along with some form of credentials to prove they are who they are (user/pass/2FA). The JWT is then usually provided by the client to the app in the `Authorization: Bearer <token>` request header. There's a whole slew of tooling around doing this "handshake", from both client and server-side (Istio included). The neat thing about using a service mesh is that Istio can handle this interaction transparently to services. You only need configure the RequestAuthenication and AuthorizationPolicy objects.
+Because, having a JWT can act as proof of who you are, and claims within the JWT capture what you are allowed to do. Clients usually obtain a JWT by requesting one from a JWT issuer along with some credentials to prove identity (user/pass/2FA). The JWT is then usually provided by the client to the app in the `Authorization: Bearer <token>` request header. There's a whole slew of tooling around doing this "handshake", from both client and server-side (Istio included). The neat thing about using a service mesh is that Istio can handle this interaction transparently to services. You only need configure the `RequestAuthenication` and `AuthorizationPolicy` objects.
 
 ![image-20210711110154319](assets/image-20210711110154319.png)
 
