@@ -46,7 +46,7 @@ Because, having a JWT can act as proof of who you are, and claims within the JWT
 *Above: JWT 'handshake'*
 
 
-## The RequestAuthentication Object
+## The `RequestAuthentication` Object
 
 In the `RequestAuthentication` object you can specify which workloads require a JWT from which trusted issuers. Note you need to provide `jwksUri` so that Istio knows where to grab the certs used in the validation of the tokens (aka the [JSON Web Key Set](https://auth0.com/docs/tokens/json-web-tokens/json-web-key-sets)). Your issuer will have an endpoint for this (sometimes linked from the `well-known` endpoint ).
 
@@ -68,12 +68,20 @@ spec:
 ```
 
 
-## The AuthorizationPolicy Object
+## The `AuthorizationPolicy` Object
 
-Now here it gets a little tricky. There is a lot you can  do with Authorization Policies
+Now here is the meat of what you will be configuring when using Istio enforce RBAC for your services. I won't go in depth here (there is a lot you can do) but I will briefly touch on the .
 
-TODO Explain a sample auth policy and direct to better docs
+1. There are 3 kind of authorization policies:
+	1. allow policies
+	2. deny policies
+	3. custom policies
+2. There is an ordering in how access is determined with these three policies
+3. These policies have `rules`, which define if certain criteria is met, what level of access is allowed.
 
+#### Example Authorization Policy
+In this example, we allow access to our service `httpbin` in namespace `foo` from any JWT (regardless of the principle) to use the `GET` method.
+ 
 ```yaml
 apiVersion: "security.istio.io/v1beta1"
 kind: "AuthorizationPolicy"
@@ -87,7 +95,6 @@ spec:
   rules:
   - from:
     - source:
-        # principals: ["cluster.local/ns/default/sa/inventory-sa"]
         principals: ["*"]
     to:
     - operation:
