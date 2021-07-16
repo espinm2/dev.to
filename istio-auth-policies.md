@@ -23,7 +23,7 @@ Using a service mesh, like Istio, handles a lot of this complexity for you. For 
 There is more the service mesh can do for your, but we're going to focus on the last two in this post. 
 
 
-## The JWT
+### The JWT
 
 (*pronounced 'jot'*)
 
@@ -37,7 +37,7 @@ But to that, you need to understand what the JWT is, and how it's used in conjun
 
 The JWT is the standard token used in [OpenIDConnect](https://openid.net/connect/) (OIDC) spec, and widely used as result. It has three pieces to it, the header, **payload**, and signature. We are focused on the payload. Within the JSON payload one can put data (note: keys in the payload are called **claims**). That said, there are certain keys (claims) that are reserved by the JWT spec. Non-reserved claims are called custom claims, of which the OIDC spec [defines a handful of](https://auth0.com/docs/scopes/openid-connect-scopes). These claims are often grouped into scopes. Where a scopes can be thought of as groupings of related permissions. Again, unsurprisingly the OIDC specifies certain scopes.
 
-### Now why does this matter?
+#### Now why does this matter?
 
 Because, having a JWT can act as proof of who you are, and claims within the JWT capture what you are allowed to do. Clients usually obtain a JWT by requesting one from a JWT issuer along with some credentials to prove identity (user/pass/2FA). The JWT is then usually provided by the client to the app in the `Authorization: Bearer <token>` request header. There's a whole slew of tooling around doing this "handshake", from both client and server-side (Istio included). The neat thing about using a service mesh is that Istio can handle this interaction transparently to services. You only need configure the `RequestAuthenication` and `AuthorizationPolicy` objects.
 
@@ -69,11 +69,6 @@ spec:
 
 
 ## The AuthorizationPolicy Object
-
-- [x] Understand where principle comes from
-- [ ] Create the visualization of many bouncers for thinking about auth policies
-- [ ] Include link to auth policy be example doc
-- [ ] Is there tooling to check?
 
 Now here it gets a little tricky. There is a lot you can  do with Authorization Policies
 
@@ -110,25 +105,25 @@ There is some simple logic behind how authorization is determined given defined 
 5 - Deny the request.
 [source](https://istio.io/latest/docs/reference/config/security/authorization-policy/)
 
-That said, as a visual learner, I need something tangible to keep this model in my head. So I think of it as someone visiting a cooperate lobby trying to get access to a certain office. 
+That said, as a visual learner, I need something tangible to keep this model in my head. So I think of it as someone in a cooperate lobby trying to get enter an office. 
 
 In this analogy:
-- the custom auth policies can be thought of C-level execs
+- the Custom auth policies can be thought of C-level execs
 	- They can decided many things, including if your allowed in or not!
-- the deny policies can be thought of a office security
+- the Deny policies can be thought of a office security
 	- They are on the look out for features, if you catch their eye they will kick out
-- the auth policies can thought of as employees of the office your are visiting
-	- They can swipe you into the office if you have reason to be there
+- the Allow policies can thought of as employees of the office your are visiting
+	- They can swipe you into the office if they happen to be expecting you
 
-Here, you move past first the custom policies, if they know you they will let you in. Or if they know you for bad reasons, they will kick you out.
+Here, you move past first the custom policies. If they are expecting you, they will decide if you should be allowed in the office or not. They make the first call in regards to access.
 
 ![[Pasted image 20210716125812.png]]
 
-You've made it past the execs, nice! But here if you catch the eye (match) one of the deny policies, your out!
+Here, the execs are not expecting you, you're barely noticed by them. But if you catch the eye (match) one of the deny policies, they will escort you out. So try not to look suspicious!
 
 ![[Pasted image 20210716125836.png]]
 
-In this case, on one wants you out. There are not Allow policies defined, so it's assumed you are allowed to enter the office.
+In this case, no one wants you out and there are no Allow policies defined.  It's assumed you are allowed to enter the office.
 
 ![[Pasted image 20210716125851.png]]
 
@@ -136,5 +131,6 @@ But, if any Allow policies are defined, you're going to need to have one of them
 
 ![[Pasted image 20210716125918.png]]
 
-If no one is expecting you, but no one kicks you out explcitly. You are not allowed into the office still, 
+If no one is expecting you, but no one kicks you out explicitly, you are not allowed linger in the lobby. You will be kicked out.
+
 ![[Pasted image 20210716125930.png]]
