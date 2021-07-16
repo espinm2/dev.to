@@ -67,6 +67,7 @@ spec:
     jwksUri: "https://www.googleapis.com/oauth2/v3/certs" # Certs to verify JWTs
 ```
 
+This alone does not however enforce that others cannot hit your endpoint publicly. You need to this this in with Authorization Policies.
 
 ## The `AuthorizationPolicy` Object
 
@@ -102,8 +103,12 @@ spec:
 ```
 
 
+#### Example tying together claims with Authorization Policies
+> 🚧 I will fill out this section soon. I working on more examples and diagrams to tie these concepts together!
+> I highly recommend reading [Istio By Example](https://www.istiobyexample.dev/authorization)  for more info!
+
 ## Access Flow with Auth Policies
-There is some simple logic behind how authorization is determined given defined `AuthorizationPolicies`. Below is the flow as taken directly from the Istio documentation.
+There is some logic behind how authorization is determined given defined `AuthorizationPolicies`. Below is the flow as taken directly from the Istio documentation.
 
 >1 - If there are any CUSTOM policies that match the request, evaluate and deny the request if the evaluation result is deny.
 2 - If there are any DENY policies that match the request, deny the request.
@@ -112,7 +117,7 @@ There is some simple logic behind how authorization is determined given defined 
 5 - Deny the request.
 [source](https://istio.io/latest/docs/reference/config/security/authorization-policy/)
 
-That said, as a visual learner, I need something tangible to keep this model in my head. So I think of it as someone in a cooperate lobby trying to get enter an office. 
+That said, as a visual learner, I need something tangible to keep this model in my head. So I think model the auth flow a person in a cooperate lobby trying to get enter an office. 
 
 In this analogy:
 - the Custom auth policies can be thought of C-level execs
@@ -121,10 +126,10 @@ In this analogy:
 	- They are on the look out for features, if you catch their eye they will kick out
 - the Allow policies can thought of as employees of the office your are visiting
 	- They can swipe you into the office if they happen to be expecting you
-
-Here, you move past first the custom policies. If they are expecting you, they will decide if you should be allowed in the office or not. They make the first call in regards to access.
+	- 
 
 ![[Pasted image 20210716125812.png]]
+Above: You enter the lobby and you notice the custom policies. If they are expecting (match) you, they will decide if you should be allowed in the office or not. They make the first call in regards to access.
 
 Here, the execs are not expecting you, you're barely noticed by them. But if you catch the eye (match) one of the deny policies, they will escort you out. So try not to look suspicious!
 
