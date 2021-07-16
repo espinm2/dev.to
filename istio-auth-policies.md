@@ -142,7 +142,7 @@ Above:  In this case, no one wants you out and there are no Allow policies defin
 Above: But, if any Allow policies are defined, you're going to need to have one of them expecting you (match) to allow you into the office.
 
 
-![](https://github.com/espinm2/dev.to/blob/master/assets/Pasted%20image%2020210716125930.png)
+![](https://github.com/espinm2/dev.to/blob/master/assets/Pasted%20image%2020210716125930.png?raw=true)
 Above: If no one is expecting you, but no one kicks you out explicitly, you are not allowed linger in the lobby. You will be kicked out.
 
 ## In Summary
