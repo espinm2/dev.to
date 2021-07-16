@@ -5,7 +5,6 @@ I recently had to debug Istio authorization policies and I learned what a pain i
 With that said, checkout the [Istio official docs](https://istio.io/latest/docs/reference/config/security/authorization-policy/) for more detail.
 
 
-
 ## The Tools
 
 ### Istio
@@ -147,3 +146,8 @@ Above: But, if any Allow policies are defined, you're going to need to have one 
 Above: If no one is expecting you, but no one kicks you out explicitly, you are not allowed linger in the lobby. You will be kicked out.
 
 ## In Summary
+Using Istio you are just a few configuration files away from handling auth for your services. While the configuration of these files might be a little obtuse, thinking about how they fit and how they get applied shouldn't have to be!
+
+![[Pasted image 20210716140743.png]]
+Above: The main actors in this play and the steps that happen. Note in step 5, that we apply the flow discussed earlier in this post.
+
