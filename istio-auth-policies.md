@@ -30,7 +30,7 @@ Authentication is proving who are you. Using Istio, you can request clients call
 
 But to that, you need to understand what the JWT is, and how it's used in conjunction with Istio to enforce RBAC for services.
 
-![image-20210709173717855](assets/image-20210709173717855.png)
+![image-20210709173717855](https://github.com/espinm2/dev.to/blob/master/assets/image-20210709173717855.png?raw=true)
 
 *Above: Anatomy of a JWT*
 
@@ -40,7 +40,7 @@ The JWT is the standard token used in [OpenIDConnect](https://openid.net/connect
 
 Because, having a JWT can act as proof of who you are, and claims within the JWT capture what you are allowed to do. Clients usually obtain a JWT by requesting one from a JWT issuer along with some credentials to prove identity (user/pass/2FA). The JWT is then usually provided by the client to the app in the `Authorization: Bearer <token>` request header. There's a whole slew of tooling around doing this "handshake", from both client and server-side (Istio included). The neat thing about using a service mesh is that Istio can handle this interaction transparently to services. You only need configure the `RequestAuthenication` and `AuthorizationPolicy` objects.
 
-![](assets/image-20210711110154319.png)
+![](https://github.com/espinm2/dev.to/blob/master/assets/image-20210711110154319.png?raw=true)
 
 *Above: JWT 'handshake'*
 
@@ -127,27 +127,27 @@ In this analogy:
 	- They can swipe you into the office if they happen to be expecting you
 	- 
 
-![[Pasted image 20210716125812.png]]
+![](https://github.com/espinm2/dev.to/blob/master/assets/Pasted%20image%2020210716125812.png?raw=true)
 Above: You enter the lobby and you notice the custom policies. If they are expecting (match) you, they will decide if you should be allowed in the office or not. They make the first call in regards to access.
 
 
-![[Pasted image 20210716125836.png]]
+![](https://github.com/espinm2/dev.to/blob/master/assets/Pasted%20image%2020210716125836.png?raw=true)
 Above: Here, the execs are not expecting you, you're barely noticed by them. But if you catch the eye (match) one of the deny policies, they will escort you out. So try not to look suspicious!
 
 
-![[Pasted image 20210716125851.png]]
+![](https://github.com/espinm2/dev.to/blob/master/assets/Pasted%20image%2020210716125851.png?raw=true)
 Above:  In this case, no one wants you out and there are no Allow policies defined.  It's assumed you are allowed to enter the office
 
-![[Pasted image 20210716125918.png]]
+![](https://github.com/espinm2/dev.to/blob/master/assets/Pasted%20image%2020210716125918.png?raw=true)
 Above: But, if any Allow policies are defined, you're going to need to have one of them expecting you (match) to allow you into the office.
 
 
-![[Pasted image 20210716125930.png]]
+![](https://github.com/espinm2/dev.to/blob/master/assets/Pasted%20image%2020210716125930.png)
 Above: If no one is expecting you, but no one kicks you out explicitly, you are not allowed linger in the lobby. You will be kicked out.
 
 ## In Summary
 Using Istio you are just a few configuration files away from handling auth for your services. While the configuration of these files might be a little obtuse, thinking about how they fit and how they get applied shouldn't have to be!
 
-![[Pasted image 20210716140743.png]]
+![](https://github.com/espinm2/dev.to/blob/master/assets/Pasted%20image%2020210716140743.png?raw=true)
 Above: The main actors in this play and the steps that happen. Note in step 5, that we apply the flow discussed earlier in this post.
 
