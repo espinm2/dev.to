@@ -131,18 +131,19 @@ In this analogy:
 ![[Pasted image 20210716125812.png]]
 Above: You enter the lobby and you notice the custom policies. If they are expecting (match) you, they will decide if you should be allowed in the office or not. They make the first call in regards to access.
 
-Here, the execs are not expecting you, you're barely noticed by them. But if you catch the eye (match) one of the deny policies, they will escort you out. So try not to look suspicious!
 
 ![[Pasted image 20210716125836.png]]
+Above: Here, the execs are not expecting you, you're barely noticed by them. But if you catch the eye (match) one of the deny policies, they will escort you out. So try not to look suspicious!
 
-In this case, no one wants you out and there are no Allow policies defined.  It's assumed you are allowed to enter the office.
 
 ![[Pasted image 20210716125851.png]]
-
-But, if any Allow policies are defined, you're going to need to have one of them expecting you (match) to allow you into the office.
+Above:  In this case, no one wants you out and there are no Allow policies defined.  It's assumed you are allowed to enter the office
 
 ![[Pasted image 20210716125918.png]]
+Above: But, if any Allow policies are defined, you're going to need to have one of them expecting you (match) to allow you into the office.
 
-If no one is expecting you, but no one kicks you out explicitly, you are not allowed linger in the lobby. You will be kicked out.
 
 ![[Pasted image 20210716125930.png]]
+Above: If no one is expecting you, but no one kicks you out explicitly, you are not allowed linger in the lobby. You will be kicked out.
+
+## In Summary
