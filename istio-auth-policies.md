@@ -99,11 +99,24 @@ spec:
         methods: ["GET"]
 ```
 
-> 1. If there are any CUSTOM policies that match the request, evaluate and deny the request if the evaluation result is deny.
-> 2. If there are any DENY policies that match the request, deny the request.
-> 3. If there are no ALLOW policies for the workload, allow the request.
-> 4. If any of the ALLOW policies match the request, allow the request.
-> 5. Deny the request.
->
-> [source](https://istio.io/latest/docs/reference/config/security/authorization-policy/)
 
+## Access Flow with Auth Policies
+There is some strightforward 
+
+>1 - If there are any CUSTOM policies that match the request, evaluate and deny the request if the evaluation result is deny.
+2 - If there are any DENY policies that match the request, deny the request.
+3 - If there are no ALLOW policies for the workload, allow the request.
+4 - If any of the ALLOW policies match the request, allow the request.
+5 - Deny the request.
+
+[source](https://istio.io/latest/docs/reference/config/security/authorization-policy/)
+
+![[Pasted image 20210716125812.png]]
+
+![[Pasted image 20210716125836.png]]
+
+![[Pasted image 20210716125851.png]]
+
+![[Pasted image 20210716125918.png]]
+
+![[Pasted image 20210716125930.png]]
